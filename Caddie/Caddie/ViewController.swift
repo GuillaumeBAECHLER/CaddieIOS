@@ -8,21 +8,27 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var btnAchat: UIButton!
+    @IBOutlet weak var btnAnnuler: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     let headers: [String] = ["Mon panier", "Produits"]
     var tableViewData: [[String]] = [[], []]
-    
+    var filtered: [String] = []
+    var products: [String] = ["🍍 Ananas", "🍊 Mandarine", "🍋 Citron", "🍌 Banane", "🍉 Pastèque", "🍇 Raisin", "🍓 Fraise", "🍈 Melon", "🍑 Pêche", "🥥 Noix de coco", "🥝 Kiwi", "🍅 Tomate", "🍒 Cerise", "🍐 Poire", "🍎 Pomme rouge", "🍏 Pomme verte", "🍆 Aubergine", "🥑 Avocat", "🥦 Brocolis", "🥒 Concombre"]
+    var searchActive : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tableViewData[1] = ["🍍 Ananas", "🍊 Mandarine", "🍋 Citron", "🍌 Banane", "🍉 Pastèque", "🍇 Raisin", "🍓 Fraise", "🍈 Melon", "🍑 Pêche", "🥥 Noix de coco", "🥝 Kiwi", "🍅 Tomate", "🍒 Cerise", "🍐 Poire", "🍎 Pomme rouge", "🍏 Pomme verte", "🍆 Aubergine", "🥑 Avocat", "🥦 Brocolis", "🥒 Concombre"]
+        tableViewData[1] = products
         tableView.isEditing = true
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationItem.largeTitleDisplayMode = .always
+        searchBar.delegate = self
         loadUserCartToUserDefaults()
     }
 
@@ -52,11 +58,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if(indexPath.section == 0){
-            return true
-        } else {
-            return true
-        }
+        return true
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -74,11 +76,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        if(indexPath.section == 0){
+        if (indexPath.section == 0) {
             return UITableViewCellEditingStyle.delete
-        } else {
-            return UITableViewCellEditingStyle.insert
         }
+        return UITableViewCellEditingStyle.insert
     }
     
     func saveUserCartFromUserDefaults() {
@@ -86,7 +87,62 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func loadUserCartToUserDefaults() {
-        tableViewData = UserDefaults.standard.object(forKey: "liste") as! [[String]]
+        let userData = UserDefaults.standard.object(forKey: "liste") as? [[String]]
+        if ( userData != nil ) {
+            tableViewData = userData!
+        }
+    }
+    
+    @IBAction func acheter(_ sender: Any) {
+        cleanUI()
+    }
+    
+    @IBAction func annuler(_ sender: Any) {
+        cleanUI()
+    }
+    
+    func cleanUI() {
+        UserDefaults.standard.removeObject(forKey: "liste")
+        tableViewData[1].insert(contentsOf: tableViewData[0], at: 0)
+        tableViewData[0].removeAll()
+        tableView.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchActive = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        var fullProducts:Set<String> = Set(products)
+        fullProducts.subtract(tableViewData[0])
+        if(searchText == ""){
+            filtered = Array(fullProducts)
+        } else {
+            filtered = fullProducts.filter({ (text) -> Bool in
+                let tmp: NSString = text as NSString as NSString
+                let range = tmp.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                return range.location != NSNotFound
+            })
+        }
+        if(filtered.count == 0){
+            searchActive = false
+        } else {
+            searchActive = true
+        }
+        tableViewData[1] = filtered
+        tableView.reloadData()
     }
     
 }

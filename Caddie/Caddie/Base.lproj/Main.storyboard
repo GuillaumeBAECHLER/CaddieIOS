@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,8 +19,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FB0-9t-ea7">
+                                <rect key="frame" x="0.0" y="64" width="375" height="84"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kY2-2a-qLD">
+                                        <rect key="frame" x="0.0" y="39" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q0L-4M-BQ3">
+                                        <rect key="frame" x="305" y="4" width="53" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Annuler">
+                                            <color key="titleColor" red="1" green="0.38542982035682916" blue="0.35345288369603434" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="annuler:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hsc-y4-Kyl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4j-To-mCp">
+                                        <rect key="frame" x="213" y="5" width="54" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Acheter"/>
+                                        <connections>
+                                            <action selector="acheter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ngg-2D-Kaf"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="zAe-du-JSe">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="146" width="375" height="603"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cart_cell" id="eJ2-hp-a2Q">
@@ -39,15 +69,22 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="zAe-du-JSe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GHo-qq-w2E"/>
-                            <constraint firstItem="zAe-du-JSe" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="L0y-C4-VQH"/>
-                            <constraint firstItem="zAe-du-JSe" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="VKV-my-8YT"/>
-                            <constraint firstItem="zAe-du-JSe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="mbC-9e-ypV"/>
+                            <constraint firstItem="FB0-9t-ea7" firstAttribute="leading" secondItem="zAe-du-JSe" secondAttribute="leading" id="K3Y-9E-9fk"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="zAe-du-JSe" secondAttribute="bottom" constant="-82" id="Pcb-UQ-3MZ"/>
+                            <constraint firstAttribute="trailing" secondItem="zAe-du-JSe" secondAttribute="trailing" id="QsB-Ta-dDC"/>
+                            <constraint firstItem="zAe-du-JSe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="82" id="TpP-Sm-u6R"/>
+                            <constraint firstItem="zAe-du-JSe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Tqw-7j-1jm"/>
+                            <constraint firstItem="FB0-9t-ea7" firstAttribute="trailing" secondItem="zAe-du-JSe" secondAttribute="trailing" id="ZwZ-d1-CUW"/>
+                            <constraint firstItem="FB0-9t-ea7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gTf-Xq-zzg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="FB0-9t-ea7" secondAttribute="bottom" constant="519" id="tB6-OI-QuQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="🛒 Caddie" id="wZW-XW-NTh"/>
                     <connections>
+                        <outlet property="btnAchat" destination="f4j-To-mCp" id="ryz-T0-3ra"/>
+                        <outlet property="btnAnnuler" destination="q0L-4M-BQ3" id="TaA-sZ-hX6"/>
+                        <outlet property="searchBar" destination="kY2-2a-qLD" id="1TI-1S-ZBp"/>
                         <outlet property="tableView" destination="zAe-du-JSe" id="hw2-e4-Rrh"/>
                     </connections>
                 </viewController>
